@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { fetchEvents } from 'services/eventsAPI';
 
 export const EventsPage = () => {
   const [events, setEvents] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     fetchEvents().then(setEvents);
@@ -14,7 +15,9 @@ export const EventsPage = () => {
       <ul>
         {events.map(({ name, id }) => (
           <li key={id}>
-            <Link to={id}>{name}</Link>
+            <Link to={id} state={{ from: location }}>
+              {name}
+            </Link>
           </li>
         ))}
       </ul>
